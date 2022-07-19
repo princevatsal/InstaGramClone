@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/HomeScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import HomeFillImg from '../assets/home-fill.png';
 import HomeImg from '../assets/home.png';
 import AvatarImg from '../assets/avatar.png';
@@ -44,7 +45,7 @@ export default function TabNavigator() {
         />
         <Tab.Screen
           name="Profile"
-          component={HomeScreen}
+          component={ProfileScreen}
           options={{headerShown: false}}
         />
       </Tab.Navigator>
