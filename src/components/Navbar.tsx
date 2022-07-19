@@ -1,15 +1,18 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import InstaGram from '../assets/instagram.png';
+import InstaGramImg from '../assets/instagram.png';
 import Plus from '../assets/plus.png';
 
-const Navbar: React.FC = ({name}: {name?: string}): JSX.Element => {
+interface NavbarProp {
+  userName?: string;
+}
+const Navbar: React.FC = ({userName}: NavbarProp): JSX.Element => {
   return (
     <View style={styles.navbar}>
-      {!name ? (
-        <Image source={InstaGram} style={styles.instaGram} />
+      {!userName ? (
+        <Image source={InstaGramImg} style={styles.instaGramIcon} />
       ) : (
-        <Text style={styles.userName}>{name}</Text>
+        <Text style={styles.userName}>{userName}</Text>
       )}
       <TouchableOpacity style={styles.plusIconCover}>
         <Image source={Plus} style={styles.plusIcon} />
@@ -29,7 +32,7 @@ const styles = StyleSheet.create({
     height: '5%',
     width: '100%',
   },
-  instaGram: {
+  instaGramIcon: {
     height: '75%',
     width: '25%',
     resizeMode: 'contain',

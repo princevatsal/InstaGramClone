@@ -1,20 +1,28 @@
 import React from 'react';
-import {Text, View, SafeAreaView, Image, ScrollView} from 'react-native';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  ImageStyle,
+} from 'react-native';
 import Navbar from '../components/Navbar';
 import Avatar from '../assets/img1.jpg';
 
 const ProfileScreen: React.FC = (): JSX.Element => {
-  const PostPreview: React.FC = (): JSX.Element => {
+  const RenderSmallPost: React.FC = (): JSX.Element => {
     return (
       <View style={styles.postImageCover}>
         <Image source={Avatar} style={styles.postImage} />
       </View>
     );
   };
+
   const posts = [{}, {}, {}];
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar name="Priyansh Vatsal" />
+      <Navbar userName="Priyansh Vatsal" />
       <View style={styles.row}>
         <Image source={Avatar} style={styles.profileImg} />
         <View style={styles.stats}>
@@ -23,14 +31,14 @@ const ProfileScreen: React.FC = (): JSX.Element => {
         </View>
       </View>
       <Text style={styles.userName}>Priyansh Vatsal</Text>
-      <View style={styles.postContainer}>
+      <View style={styles.postsContainer}>
         <Text style={styles.postsHeading}>My Posts</Text>
         <ScrollView>
           <View style={styles.postsList}>
             {posts.length == 0 ? (
               <Text style={styles.emptyMessage}>No Post found</Text>
             ) : (
-              posts.map(() => <PostPreview />)
+              posts.map(() => <RenderSmallPost />)
             )}
           </View>
         </ScrollView>
@@ -70,7 +78,7 @@ const styles = {
     fontSize: 12,
     color: '#000',
   },
-  postContainer: {
+  postsContainer: {
     width: '100%',
     borderTopWidth: 1,
     borderTopColor: '#a1a1a1',
