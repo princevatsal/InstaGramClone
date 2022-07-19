@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, SafeAreaView, Dimensions} from 'react-native';
 import Navbar from '../components/Navbar';
 import Post from '../components/Post';
 import {FlashList} from '@shopify/flash-list';
+
 const HEIGHT = Dimensions.get('window').height;
 const DATA = [
   {
@@ -19,11 +20,11 @@ const DATA = [
   },
 ];
 
-const HomeScreen: React.FC = (): JSX.Element => {
+const HomeScreen: React.FC = ({navigation}): JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        <Navbar />
+        <Navbar navigation={navigation} />
         <View style={styles.feed}>
           <FlashList
             data={DATA}

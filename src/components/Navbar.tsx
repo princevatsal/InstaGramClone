@@ -2,11 +2,17 @@ import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import InstaGramImg from '../assets/instagram.png';
 import Plus from '../assets/plus.png';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 interface NavbarProp {
   userName?: string;
+  navigation: NavigationProp<ParamListBase>;
 }
-const Navbar: React.FC = ({userName}: NavbarProp): JSX.Element => {
+
+const Navbar: React.FC<NavbarProp> = ({
+  userName,
+  navigation,
+}: NavbarProp): JSX.Element => {
   return (
     <View style={styles.navbar}>
       {!userName ? (
@@ -14,7 +20,11 @@ const Navbar: React.FC = ({userName}: NavbarProp): JSX.Element => {
       ) : (
         <Text style={styles.userName}>{userName}</Text>
       )}
-      <TouchableOpacity style={styles.plusIconCover}>
+      <TouchableOpacity
+        style={styles.plusIconCover}
+        onPress={() => {
+          navigation.navigate('NewPost');
+        }}>
         <Image source={Plus} style={styles.plusIcon} />
       </TouchableOpacity>
     </View>

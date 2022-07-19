@@ -10,7 +10,7 @@ import {
 import Navbar from '../components/Navbar';
 import Avatar from '../assets/img1.jpg';
 
-const ProfileScreen: React.FC = (): JSX.Element => {
+const ProfileScreen: React.FC = ({navigation}): JSX.Element => {
   const RenderSmallPost: React.FC = (): JSX.Element => {
     return (
       <View style={styles.postImageCover}>
@@ -22,7 +22,7 @@ const ProfileScreen: React.FC = (): JSX.Element => {
   const posts = [{}, {}, {}];
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar userName="Priyansh Vatsal" />
+      <Navbar userName="Priyansh Vatsal" navigation={navigation} />
       <View style={styles.row}>
         <Image source={Avatar} style={styles.profileImg} />
         <View style={styles.stats}>
