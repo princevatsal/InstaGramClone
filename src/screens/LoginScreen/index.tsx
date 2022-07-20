@@ -10,7 +10,7 @@ import {
   ImageStyle,
   TextStyle,
 } from 'react-native';
-const InstagramImg = require('../assets/instagram.png');
+const InstagramImg = require('../../assets/instagram.png');
 import PhoneInput from 'react-native-phone-number-input';
 import auth from '@react-native-firebase/auth';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
@@ -21,8 +21,20 @@ interface LoginProp {
 const LoginScreen = ({navigation}: LoginProp): JSX.Element => {
   const [value, setValue] = useState<string>('');
   const [formattedValue, setFormattedValue] = useState<string>('');
-  const [valid, setValid] = useState<boolean>(false);
+  const [isValidPhoneNo, setIsValidPhoneNo] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [confirm, setConfirm] = useState<any>(null);
+  const [code, setCode] = useState<string>('');
   const phoneInput = useRef<PhoneInput>(null);
+
+  async function signInWithPhoneNumber(phoneNumber: string) {
+    try {
+      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+      // setConfirm(confirmation);
+    } catch (err) {
+      console.log(err, 'error creating user');
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container as ViewStyle}>

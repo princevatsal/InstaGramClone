@@ -5,57 +5,67 @@ import {
   SafeAreaView,
   Image,
   ScrollView,
-  Touchable,
   TouchableOpacity,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
 } from 'react-native';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
-import Navbar from '../components/Navbar';
-import Avatar from '../assets/img1.jpg';
-import Avatar2 from '../assets/avatar.png';
-import LogoutImg from '../assets/logout.png';
 import {connect} from 'react-redux';
-import {changeUser} from '../redux/actions';
 import auth from '@react-native-firebase/auth';
+import {stateType, userObjectDataType, ProfileScreenProp} from '../Types';
+import Navbar from '../components/Navbar';
+import {changeUser} from '../redux/actions';
+const Avatar = require('../assets/img1.jpg');
+const Avatar2 = require('../assets/avatar.png');
+const LogoutImg = require('../assets/logout.png');
 
-interface ProfileProp {
-  navigation: NavigationProp<ParamListBase>;
-}
-const ProfileScreen = ({navigation, user, setUserObject}): JSX.Element => {
+const ProfileScreen = ({
+  navigation,
+  user,
+  setUserObject,
+}: ProfileScreenProp): JSX.Element => {
   const RenderSmallPost: React.FC = (): JSX.Element => {
     return (
       <View style={styles.postImageCover}>
-        <Image source={Avatar} style={styles.postImage} />
+        <Image source={Avatar} style={styles.postImage as ImageStyle} />
       </View>
     );
   };
-  const LogOut = () => {
+  const LogOut = (): void => {
     setUserObject(null);
     auth().signOut();
   };
   const posts = [{}, {}, {}];
   return (
     <SafeAreaView style={styles.container}>
-      <Navbar userName={user.name} navigation={navigation} />
-      <View style={styles.row}>
-        <Image source={Avatar2} style={styles.profileImg} />
-        <View style={styles.stats}>
-          <Text style={styles.value}>16</Text>
+      <Navbar
+        userName={user ? user.name : 'UserName'}
+        navigation={navigation}
+      />
+      <View style={styles.row as ViewStyle}>
+        <Image source={Avatar2} style={styles.profileImg as ImageStyle} />
+        <View style={styles.stats as ViewStyle}>
+          <Text style={styles.value as TextStyle}>16</Text>
           <Text style={styles.heading}>Posts</Text>
         </View>
-        <View style={styles.stats}>
+        <View style={styles.stats as ViewStyle}>
           <TouchableOpacity style={styles.logOutImgCover} onPress={LogOut}>
-            <Image source={LogoutImg} style={styles.logOutImg} />
+            <Image source={LogoutImg} style={styles.logOutImg as ImageStyle} />
           </TouchableOpacity>
           <Text style={styles.heading}>Logout</Text>
         </View>
       </View>
-      <Text style={styles.userName}>{user.name}</Text>
+      <Text style={styles.userName as TextStyle}>
+        {user ? user.name : 'UserName'}
+      </Text>
       <View style={styles.postsContainer}>
-        <Text style={styles.postsHeading}>My Posts</Text>
+        <Text style={styles.postsHeading as TextStyle}>My Posts</Text>
         <ScrollView>
-          <View style={styles.postsList}>
+          <View style={styles.postsList as ViewStyle}>
             {posts.length == 0 ? (
-              <Text style={styles.emptyMessage}>No Post found</Text>
+              <Text style={styles.emptyMessage as TextStyle}>
+                No Post found
+              </Text>
             ) : (
               posts.map(() => <RenderSmallPost />)
             )}
@@ -145,11 +155,12 @@ const styles = {
     resizeMode: 'contain',
   },
 };
-const mapStateToProps = state => ({
+const mapStateToProps = (state: stateType) => ({
   user: state.user,
 });
-const mapDispatchToProps = dispatch => ({
-  setUserObject: userObject => dispatch(changeUser(userObject)),
+const mapDispatchToProps = (dispatch: any) => ({
+  setUserObject: (userObject: userObjectDataType) =>
+    dispatch(changeUser(userObject)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen);

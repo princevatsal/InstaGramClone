@@ -7,9 +7,10 @@ import {useState} from 'react';
 import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
 import {getUserDetails} from '../Utility';
+import {MainStackPageProp, userObjectDataType, stateType} from '../Types';
 
-const MainStack = ({user, setUserObject}): JSX.Element => {
-  const onAuthStateChanged = userObj => {
+const MainStack = ({user, setUserObject}: MainStackPageProp): JSX.Element => {
+  const onAuthStateChanged = (userObj: any) => {
     if (userObj) {
       getUserDetails(userObj.phoneNumber)
         .then(data => {
@@ -19,15 +20,18 @@ const MainStack = ({user, setUserObject}): JSX.Element => {
         .catch(() => {
           setLoading(false);
         });
+    } else {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
+    return subscriber;
   }, []);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+
   return loading ? (
     <LoadingScreen />
   ) : user ? (
@@ -37,10 +41,12 @@ const MainStack = ({user, setUserObject}): JSX.Element => {
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: stateType) => ({
   user: state.user,
 });
-const mapDispatchToProps = dispatch => ({
-  setUserObject: userObject => dispatch(changeUser(userObject)),
+const mapDispatchToProps = (dispatch: any) => ({
+  setUserObject: (userObject: userObjectDataType) =>
+    dispatch(changeUser(userObject)),
 });
+
 export default connect(mapStateToProps, mapDispatchToProps)(MainStack);

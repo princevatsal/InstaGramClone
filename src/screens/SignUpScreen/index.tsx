@@ -1,7 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {
   Text,
-  View,
   SafeAreaView,
   Image,
   TouchableOpacity,
@@ -14,19 +13,20 @@ import {
 const InstagramImg = require('../../assets/instagram.png');
 import PhoneInput from 'react-native-phone-number-input';
 import {validateName, setUserDetails, checkUserExists} from '../../Utility';
-import {SignUpProp, nameErrorType} from './types';
+import {
+  SignUpPageProp,
+  nameErrorType,
+  userObjectDataType,
+  stateType,
+} from '../../Types';
 import auth from '@react-native-firebase/auth';
 import {connect} from 'react-redux';
 import {changeUser} from '../../redux/actions';
 
 const SignUpScreen = ({
-  user,
   navigation,
   setUserObject,
-}: SignUpProp): JSX.Element => {
-  useEffect(() => {
-    console.log('global state ', user);
-  }, [user]);
+}: SignUpPageProp): JSX.Element => {
   const [phoneNo, setPhoneNo] = useState<string>('');
   const [formattedPhoneNo, setFormattedPhoneNo] = useState<string>('');
   const [name, setName] = useState<string>('');
@@ -53,7 +53,6 @@ const SignUpScreen = ({
     setTimeout(() => setShowResetBtn(true), 5000);
     try {
       const result = await confirm.confirm(code);
-      console.log(result, 'see result');
       await setUserDetails(name, result.user.phoneNumber, result.user.uid);
       setUserObject({
         name,
@@ -65,9 +64,9 @@ const SignUpScreen = ({
     } catch (err) {
       setShowResetBtn(true);
       setCodeSubmitLoading(false);
-      console.log(err);
     }
   };
+
   const Submit = async () => {
     setError(null);
     if (!isValidPhoneNo) {
@@ -106,7 +105,7 @@ const SignUpScreen = ({
   return (
     <SafeAreaView style={styles.container as ViewStyle}>
       <Image source={InstagramImg} style={styles.instaImg as ImageStyle} />
-      <Text style={styles.name as TextStyle}>Name</Text>
+      {!confirm && <Text style={styles.name as TextStyle}>Name</Text>}
       {!confirm && (
         <TextInput
           style={styles.nameField}
@@ -229,11 +228,12 @@ const styles = {
   },
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: stateType) => ({
   user: state.user,
 });
-const mapDispatchToProps = dispatch => ({
-  setUserObject: userObject => dispatch(changeUser(userObject)),
+const mapDispatchToProps = (dispatch: any) => ({
+  setUserObject: (userObject: userObjectDataType) =>
+    dispatch(changeUser(userObject)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpScreen);

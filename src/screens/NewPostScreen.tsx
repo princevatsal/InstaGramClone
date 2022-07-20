@@ -4,29 +4,26 @@ import {
   View,
   SafeAreaView,
   Image,
-  Touchable,
   TouchableOpacity,
   TextInput,
   ViewStyle,
   ImageStyle,
+  TextStyle,
 } from 'react-native';
-import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {NewPostPageProp} from '../Types';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-const CrossImg = '../assets/cross.png';
-const ArrowImg = '../assets/right-arrow.png';
-const PlusImg = '../assets/plus.png';
+const CrossImg = require('../assets/cross.png');
+const ArrowImg = require('../assets/right-arrow.png');
+const PlusImg = require('../assets/plus.png');
 
-interface NewPostProp {
-  navigation: NavigationProp<ParamListBase>;
-}
+const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
 
-const NewPostScreen = ({navigation}: NewPostProp): JSX.Element => {
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string|null>(null);
   const PickImageFromGallery = async () => {
     try {
-      const result = await launchImageLibrary({});
-      setImage(result.assets[0]);
+      const result = await launchImageLibrary({mediaType:"photo",quality:0.5});
+      result && setImage(result.assets?result.assets[0]?result.assets[0].uri:null);
     } catch (err) {}
   };
   return (
@@ -39,25 +36,25 @@ const NewPostScreen = ({navigation}: NewPostProp): JSX.Element => {
         </TouchableOpacity>
         <Text style={styles.topHeading}>Add new post</Text>
         <TouchableOpacity style={styles.arrowCover}>
-          <Image source={ArrowImg} style={styles.arrow} />
+          <Image source={ArrowImg} style={styles.arrow as ImageStyle} />
         </TouchableOpacity>
       </View>
       {image ? (
         <Image style={styles.selectedImage} source={{uri: image.uri}} />
       ) : (
         <TouchableOpacity
-          style={styles.imagePicker}
+          style={styles.imagePicker as ViewStyle}
           onPress={PickImageFromGallery}>
-          <Text style={styles.pickerText}>
+          <Text style={styles.pickerText as TextStyle}>
             Click to select photo from gallery
           </Text>
           <View style={styles.plusIconCover}>
-            <Image source={PlusImg} style={styles.plusIcon} />
+            <Image source={PlusImg} style={styles.plusIcon as ImageStyle} />
           </View>
         </TouchableOpacity>
       )}
       <View style={styles.captionContainer}>
-        <Text style={styles.captionLabel}>Enter Caption</Text>
+        <Text style={styles.captionLabel as TextStyle}>Enter Caption</Text>
         <TextInput
           placeholder="Type your thaughts"
           style={styles.caption}

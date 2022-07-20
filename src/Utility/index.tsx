@@ -1,5 +1,6 @@
-import {nameErrorType} from './types';
+import {nameErrorType} from '../Types';
 import firestore from '@react-native-firebase/firestore';
+import {userObjectDataType} from '../Types';
 
 export const validateName = (name: string): nameErrorType => {
   name = name.trim();
@@ -12,7 +13,7 @@ export const validateName = (name: string): nameErrorType => {
   }
 };
 
-export const checkUserExists = async (phoneNo: string) => {
+export const checkUserExists = async (phoneNo: string): Promise<boolean> => {
   return new Promise((resolve, reject) => {
     firestore()
       .collection('Users')
@@ -32,7 +33,7 @@ export const setUserDetails = async (
   name: string,
   phoneNo: string,
   uid: string,
-) => {
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     firestore()
       .collection('Users')
@@ -53,14 +54,23 @@ export const setUserDetails = async (
   });
 };
 
-export const getUserDetails = async (phoneNo: string) => {
+export const getUserDetails = async (
+  phoneNo: string,
+): Promise<userObjectDataType> => {
   return new Promise((resolve, reject) => {
     firestore()
       .collection('Users')
       .doc(phoneNo)
       .get()
       .then(data => {
-        resolve(data.data());
+        const result = data.data();
+        if (result != undefined)
+          resolve({
+            name: result.name,
+            uid: result.uid,
+            phoneNo: result.phoneNo,
+          });
+        else reject();
       })
       .catch(err => {
         reject();

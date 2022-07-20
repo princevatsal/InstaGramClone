@@ -1,8 +1,12 @@
 import { CHANGE_USER } from './types';
-const initialState = {
+import {userObjectDataType,commonReduxAction,stateType} from "../Types";
+
+
+const initialState:stateType = {
     user: null
 };
-const appReducer = (state = initialState, action) => {
+
+const appReducer = (state:stateType = initialState, action:commonReduxAction) => {
     switch(action.type) {
         case CHANGE_USER:
             return {
