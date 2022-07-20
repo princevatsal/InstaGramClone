@@ -1,16 +1,112 @@
-import React from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
+} from 'react-native';
+const InstagramImg = require('../assets/instagram.png');
+import PhoneInput from 'react-native-phone-number-input';
+import auth from '@react-native-firebase/auth';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
-const SignUpScreen = (): JSX.Element => {
+interface SignUpProp {
+  navigation: NavigationProp<ParamListBase>;
+}
+const SignUpScreen = ({navigation}: SignUpProp): JSX.Element => {
+  const [value, setValue] = useState<string>('');
+  const [formattedValue, setFormattedValue] = useState<string>('');
+  const [valid, setValid] = useState<boolean>(false);
+  const phoneInput = useRef<PhoneInput>(null);
+  useEffect(() => {
+    console.log('see', auth());
+  }, []);
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Sign Up </Text>
+    <SafeAreaView style={styles.container as ViewStyle}>
+      <Image source={InstagramImg} style={styles.instaImg as ImageStyle} />
+      <Text style={styles.name as TextStyle}>Name</Text>
+      <TextInput style={styles.nameField} placeholder="Enter your name" />
+      <PhoneInput
+        ref={phoneInput}
+        defaultValue={value}
+        defaultCode="IN"
+        layout="first"
+        onChangeText={text => {
+          setValue(text);
+        }}
+        onChangeFormattedText={text => {
+          setFormattedValue(text);
+        }}
+        withDarkTheme
+        withShadow
+        autoFocus
+      />
+      <TouchableOpacity style={styles.button as ViewStyle}>
+        <Text style={styles.btnTxt}>Sign Up</Text>
+      </TouchableOpacity>
+      <Text style={styles.loginTxt}>
+        Already have a account.
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.loginBtn as TextStyle}> Login</Text>
+        </TouchableOpacity>
+      </Text>
     </SafeAreaView>
   );
 };
 const styles = {
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  instaImg: {
+    height: '6%',
+    resizeMode: 'contain',
+    marginBottom: '5%',
+  },
+  button: {
+    marginTop: '5%',
+    width: '80%',
+    padding: '3%',
+    backgroundColor: '#0095f6',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnTxt: {
+    color: '#fff',
+    fontSize: 14,
+  },
+  nameField: {
+    padding: '3%',
+    marginLeft: '0%',
+    marginBottom: '2%',
+
+    color: '#000',
+    width: '80%',
+    borderWidth: 1,
+    borderColor: '#a1a1a1',
+  },
+  name: {
+    marginLeft: '5%',
+    color: '#000',
+    width: '85%',
+    fontWeight: 'bold',
+    marginBottom: '2%',
+  },
+  loginTxt: {
+    marginTop: '3%',
+    color: 'grey',
+  },
+  loginBtn: {
+    top: 3,
+    color: '#0095f6',
+    fontWeight: 'bold',
   },
 };
 

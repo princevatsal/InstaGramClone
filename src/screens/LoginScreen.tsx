@@ -1,20 +1,32 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {Text, View, SafeAreaView, Image, TouchableOpacity} from 'react-native';
-import InstagramImg from '../assets/instagram.png';
+import {
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  TouchableOpacity,
+  StyleProp,
+  ViewStyle,
+  ImageStyle,
+  TextStyle,
+} from 'react-native';
+const InstagramImg = require('../assets/instagram.png');
 import PhoneInput from 'react-native-phone-number-input';
 import auth from '@react-native-firebase/auth';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
-const LoginScreen = (): JSX.Element => {
+interface LoginProp {
+  navigation: NavigationProp<ParamListBase>;
+}
+const LoginScreen = ({navigation}: LoginProp): JSX.Element => {
   const [value, setValue] = useState<string>('');
   const [formattedValue, setFormattedValue] = useState<string>('');
   const [valid, setValid] = useState<boolean>(false);
   const phoneInput = useRef<PhoneInput>(null);
-  useEffect(() => {
-    console.log('see', auth());
-  }, []);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Image source={InstagramImg} style={styles.instaImg} />
+    <SafeAreaView style={styles.container as ViewStyle}>
+      <Image source={InstagramImg} style={styles.instaImg as ImageStyle} />
       <PhoneInput
         ref={phoneInput}
         defaultValue={value}
@@ -30,9 +42,15 @@ const LoginScreen = (): JSX.Element => {
         withShadow
         autoFocus
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button as ViewStyle}>
         <Text style={styles.btnTxt}>Log In</Text>
       </TouchableOpacity>
+      <Text style={styles.loginTxt}>
+        Already have a account.
+        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+          <Text style={styles.loginBtn as TextStyle}>SignUp</Text>
+        </TouchableOpacity>
+      </Text>
     </SafeAreaView>
   );
 };
@@ -59,6 +77,15 @@ const styles = {
   btnTxt: {
     color: '#fff',
     fontSize: 14,
+  },
+  loginTxt: {
+    marginTop: '3%',
+    color: 'grey',
+  },
+  loginBtn: {
+    top: 3,
+    color: '#0095f6',
+    fontWeight: 'bold',
   },
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import InstaGramImg from '../assets/instagram.png';
-import Plus from '../assets/plus.png';
+const InstaGramImg = require('../assets/instagram.png');
+const Plus = require('../assets/plus.png');
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 
 interface NavbarProp {

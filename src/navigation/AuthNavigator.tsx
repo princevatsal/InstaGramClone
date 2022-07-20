@@ -10,13 +10,13 @@ const AuthNavigator = (): JSX.Element => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Login"
-          component={LoginScreen}
+          name="Signup"
+          component={SignUpScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Signup"
-          component={SignUpScreen}
+          name="Login"
+          component={LoginScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

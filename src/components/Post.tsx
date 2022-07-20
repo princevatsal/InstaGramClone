@@ -8,13 +8,13 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import IMG1 from '../assets/img1.jpg';
-import Like from '../assets/heart.png';
-import Liked from '../assets/heart-fill.png';
-import CommentIconImg from '../assets/comment.png';
-import Save from '../assets/save.png';
-import Saved from '../assets/save-fill.png';
-import Avatar from '../assets/avatar.png';
+const IMG1 = require('../assets/img1.jpg');
+const Like = require('../assets/heart.png');
+const Liked = require('../assets/heart-fill.png');
+const CommentIconImg = require('../assets/comment.png');
+const Save = require('../assets/save.png');
+const Saved = require('../assets/save-fill.png');
+const Avatar = require('../assets/avatar.png');
 const HEIGHT = Dimensions.get('window').height;
 
 const Post: React.FC = (): JSX.Element => {
