@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderBottomWidth: 2,
     borderBottomColor: '#e5e6e5',
-    height: '5%',
+    height: '7%',
     width: '100%',
   },
   instaGramIcon: {
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   plusIconCover: {
-    height: '75%',
+    height: '65%',
     width: '10%',
   },
   plusIcon: {

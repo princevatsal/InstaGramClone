@@ -1,10 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text, View, SafeAreaView, Dimensions} from 'react-native';
-import Navbar from '../components/Navbar';
-import Post from '../components/Post';
+import {StyleSheet, View, SafeAreaView, Dimensions} from 'react-native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {FlashList} from '@shopify/flash-list';
 
-const HEIGHT = Dimensions.get('window').height;
+import Navbar from '../components/Navbar';
+import Post from '../components/Post';
+
+const HEIGHT: number = Dimensions.get('window').height;
 const DATA = [
   {
     title: 'First Item',
@@ -20,18 +22,19 @@ const DATA = [
   },
 ];
 
-const HomeScreen: React.FC = ({navigation}): JSX.Element => {
+interface HomeProp {
+  navigation: NavigationProp<ParamListBase>;
+}
+
+const HomeScreen: React.FC<HomeProp> = ({
+  navigation,
+}: HomeProp): JSX.Element => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <Navbar navigation={navigation} />
         <View style={styles.feed}>
-          <FlashList
-            data={DATA}
-            renderItem={({item}) => <Post />}
-            estimatedItemSize={200}
-          />
-          {/* <Post /> */}
+          <FlashList data={DATA} renderItem={() => <Post />} />
         </View>
       </View>
     </SafeAreaView>

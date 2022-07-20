@@ -8,21 +8,24 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
+import {launchImageLibrary} from 'react-native-image-picker';
+
 import CrossImg from '../assets/cross.png';
 import ArrowImg from '../assets/right-arrow.png';
 import PlusImg from '../assets/plus.png';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
-const NewPost = ({navigation}) => {
+interface NewPostProp {
+  navigation: NavigationProp<ParamListBase>;
+}
+
+const NewPost = ({navigation}: NewPostProp): JSX.Element => {
   const [image, setImage] = useState(null);
   const PickImageFromGallery = async () => {
     try {
       const result = await launchImageLibrary({});
       setImage(result.assets[0]);
-      console.log(result);
-    } catch (err) {
-      console.log(err, 'see');
-    }
+    } catch (err) {}
   };
   return (
     <SafeAreaView style={styles.container}>

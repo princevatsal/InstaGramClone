@@ -1,16 +1,15 @@
 import React from 'react';
-import {
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  ScrollView,
-  ImageStyle,
-} from 'react-native';
+import {Text, View, SafeAreaView, Image, ScrollView} from 'react-native';
+import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import Navbar from '../components/Navbar';
 import Avatar from '../assets/img1.jpg';
-
-const ProfileScreen: React.FC = ({navigation}): JSX.Element => {
+import Avatar2 from '../assets/avatar.png';
+interface ProfileProp {
+  navigation: NavigationProp<ParamListBase>;
+}
+const ProfileScreen: React.FC<ProfileProp> = ({
+  navigation,
+}: ProfileProp): JSX.Element => {
   const RenderSmallPost: React.FC = (): JSX.Element => {
     return (
       <View style={styles.postImageCover}>
@@ -24,7 +23,7 @@ const ProfileScreen: React.FC = ({navigation}): JSX.Element => {
     <SafeAreaView style={styles.container}>
       <Navbar userName="Priyansh Vatsal" navigation={navigation} />
       <View style={styles.row}>
-        <Image source={Avatar} style={styles.profileImg} />
+        <Image source={Avatar2} style={styles.profileImg} />
         <View style={styles.stats}>
           <Text style={styles.value}>16</Text>
           <Text style={styles.heading}>Posts</Text>
@@ -77,6 +76,7 @@ const styles = {
     marginLeft: '4%',
     fontSize: 12,
     color: '#000',
+    fontWeight: 'bold',
   },
   postsContainer: {
     width: '100%',

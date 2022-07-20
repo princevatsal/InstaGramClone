@@ -65,16 +65,16 @@ export default function TabNavigator() {
 }
 const styles = {
   circle: {
-    height: 30,
-    width: 30,
-    borderRadius: 30,
+    height: 25,
+    width: 25,
+    borderRadius: 25,
     borderWidth: 0,
     borderColor: '#000',
   },
   circleActive: {
-    height: 30,
-    width: 30,
-    borderRadius: 30,
+    height: 25,
+    width: 25,
+    borderRadius: 25,
     borderWidth: 2,
     borderColor: '#000',
   },
