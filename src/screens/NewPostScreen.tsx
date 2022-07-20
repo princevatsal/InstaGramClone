@@ -7,19 +7,21 @@ import {
   Touchable,
   TouchableOpacity,
   TextInput,
+  ViewStyle,
+  ImageStyle,
 } from 'react-native';
 import {NavigationProp, ParamListBase} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-import CrossImg from '../assets/cross.png';
-import ArrowImg from '../assets/right-arrow.png';
-import PlusImg from '../assets/plus.png';
+const CrossImg = '../assets/cross.png';
+const ArrowImg = '../assets/right-arrow.png';
+const PlusImg = '../assets/plus.png';
 
 interface NewPostProp {
   navigation: NavigationProp<ParamListBase>;
 }
 
-const NewPost = ({navigation}: NewPostProp): JSX.Element => {
+const NewPostScreen = ({navigation}: NewPostProp): JSX.Element => {
   const [image, setImage] = useState(null);
   const PickImageFromGallery = async () => {
     try {
@@ -29,11 +31,11 @@ const NewPost = ({navigation}: NewPostProp): JSX.Element => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.topBar}>
+      <View style={styles.topBar as ViewStyle}>
         <TouchableOpacity
           style={styles.crossCover}
           onPress={() => navigation.navigate('Home')}>
-          <Image source={CrossImg} style={styles.cross} />
+          <Image source={CrossImg} style={styles.cross as ImageStyle} />
         </TouchableOpacity>
         <Text style={styles.topHeading}>Add new post</Text>
         <TouchableOpacity style={styles.arrowCover}>
@@ -142,4 +144,4 @@ const styles = {
     fontWeight: 'bold',
   },
 };
-export default NewPost;
+export default NewPostScreen;

@@ -34,7 +34,11 @@ const HomeScreen: React.FC<HomeProp> = ({
       <View style={styles.container}>
         <Navbar navigation={navigation} />
         <View style={styles.feed}>
-          <FlashList data={DATA} renderItem={() => <Post />} />
+          <FlashList
+            data={DATA}
+            renderItem={() => <Post />}
+            estimatedItemSize={500}
+          />
         </View>
       </View>
     </SafeAreaView>

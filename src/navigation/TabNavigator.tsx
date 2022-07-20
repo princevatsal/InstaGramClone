@@ -5,12 +5,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import HomeFillImg from '../assets/home-fill.png';
-import HomeImg from '../assets/home.png';
-import AvatarImg from '../assets/avatar.png';
 import NewPostScreen from '../screens/NewPostScreen';
-import PlusImg from '../assets/plus.png';
-import PlusFilledImg from '../assets/plus-fill.png';
+const HomeFillImg = require('../assets/home-fill.png');
+const HomeImg = require('../assets/home.png');
+const AvatarImg = require('../assets/avatar.png');
+const PlusImg = require('../assets/plus.png');
+const PlusFilledImg = require('../assets/plus-fill.png');
 const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
@@ -18,14 +18,20 @@ export default function TabNavigator() {
 
   const ProfileIcon = ({focused}: IconParam): JSX.Element => (
     <View style={focused ? styles.circleActive : styles.circle}>
-      <Image source={AvatarImg} style={styles.avatar} />
+      <Image source={AvatarImg} style={styles.avatar as ImageStyle} />
     </View>
   );
   const HomeIcon = ({focused}: IconParam): JSX.Element => (
-    <Image source={focused ? HomeFillImg : HomeImg} style={styles.homeIcon} />
+    <Image
+      source={focused ? HomeFillImg : HomeImg}
+      style={styles.homeIcon as ImageStyle}
+    />
   );
   const NewPostIcon = ({focused}: IconParam): JSX.Element => (
-    <Image source={focused ? PlusFilledImg : PlusImg} style={styles.homeIcon} />
+    <Image
+      source={focused ? PlusFilledImg : PlusImg}
+      style={styles.homeIcon as ImageStyle}
+    />
   );
 
   const ManageIcon = (name: string, focused: boolean): JSX.Element =>
