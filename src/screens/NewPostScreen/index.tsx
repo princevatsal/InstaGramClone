@@ -9,21 +9,35 @@ import {
   ViewStyle,
   ImageStyle,
   TextStyle,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
-import {NewPostPageProp} from '../Types';
+import {NewPostPageProp, stateType, postObjectDataType} from '../../Types';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {uploadImageToStorage} from './action';
+import {connect} from 'react-redux';
+import {getPosts} from '../../Utility';
+import {changePosts} from '../../redux/actions';
+const CrossImg = require('../../assets/cross.png');
+const ArrowImg = require('../../assets/right-arrow.png');
+const PlusImg = require('../../assets/plus.png');
 
-const CrossImg = require('../assets/cross.png');
-const ArrowImg = require('../assets/right-arrow.png');
-const PlusImg = require('../assets/plus.png');
-
-const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
+const NewPostScreen = ({
+  navigation,
+  user,
+  setPostsArray,
+}: NewPostPageProp): JSX.Element => {
   const [image, setImage] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string>('');
+  const [caption, setCaption] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
   const PickImageFromGallery = async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
-        quality: 0.5,
+        quality: 1,
+        maxWidth: 780,
+        maxHeight: 780,
       });
       result &&
         setImage(
@@ -35,7 +49,37 @@ const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
               : null
             : null,
         );
+      result &&
+        setFileName(
+          result.assets
+            ? result.assets[0]
+              ? result.assets[0].fileName
+                ? result.assets[0].fileName
+                : '' + Date.now() + '.jpg'
+              : '' + Date.now() + '.jpg'
+            : '' + Date.now() + '.jpg',
+        );
     } catch (err) {}
+  };
+  const Submit = () => {
+    if (!image) {
+      Alert.alert('Please select a image');
+      return;
+    }
+    if (caption.trim().length == 0) {
+      Alert.alert('Please enter a caption');
+      return;
+    }
+
+    if (user) {
+      setLoading(true);
+      uploadImageToStorage(fileName, image, caption, user.uid, user.name).then(
+        async () => {
+          setPostsArray(await getPosts());
+          setLoading(false);
+        },
+      );
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -46,12 +90,22 @@ const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
           <Image source={CrossImg} style={styles.cross as ImageStyle} />
         </TouchableOpacity>
         <Text style={styles.topHeading}>Add new post</Text>
-        <TouchableOpacity style={styles.arrowCover}>
+        <TouchableOpacity style={styles.arrowCover} onPress={Submit}>
           <Image source={ArrowImg} style={styles.arrow as ImageStyle} />
         </TouchableOpacity>
       </View>
       {image ? (
-        <Image style={styles.selectedImage} source={{uri: image}} />
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.selectedImage as ImageStyle}
+            source={{uri: image}}
+          />
+          {loading && (
+            <View style={styles.overlay as ViewStyle}>
+              <ActivityIndicator size={30} color="#ffffff" />
+            </View>
+          )}
+        </View>
       ) : (
         <TouchableOpacity
           style={styles.imagePicker as ViewStyle}
@@ -65,10 +119,17 @@ const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
         </TouchableOpacity>
       )}
       <View style={styles.captionContainer}>
+        {image && (
+          <TouchableOpacity onPress={() => setImage(null)}>
+            <Text style={styles.reset as TextStyle}>Reset image</Text>
+          </TouchableOpacity>
+        )}
         <Text style={styles.captionLabel as TextStyle}>Enter Caption</Text>
         <TextInput
           placeholder="Type your thaughts"
           style={styles.caption}
+          value={caption}
+          onChangeText={setCaption}
           multiline
         />
       </View>
@@ -140,16 +201,41 @@ const styles = {
     paddingTop: '3%',
     fontSize: 17,
   },
-  selectedImage: {
+  imageContainer: {
     margin: '5%',
-    borderRadius: 8,
     height: '40%',
     width: '90%',
     backgroundColor: '#D3D3D3',
+  },
+  selectedImage: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
+    borderRadius: 8,
   },
   captionLabel: {
     color: '#000',
     fontWeight: 'bold',
   },
+  reset: {
+    color: 'red',
+    paddingVertical: '2%',
+    fontWeight: 'bold',
+  },
+  overlay: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0, 0.8)',
+  },
 };
-export default NewPostScreen;
+const mapStateToProps = (state: stateType) => ({
+  user: state.user,
+});
+const mapDispatchToProps = (dispatch: any) => ({
+  setPostsArray: (postsArray: postObjectDataType[]) =>
+    dispatch(changePosts(postsArray)),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(NewPostScreen);

@@ -1,6 +1,7 @@
 import {nameErrorType} from '../Types';
 import firestore from '@react-native-firebase/firestore';
 import {userObjectDataType, postObjectDataType} from '../Types';
+import storage from '@react-native-firebase/storage';
 
 export const validateName = (name: string): nameErrorType => {
   name = name.trim();
@@ -86,19 +87,59 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
       .then(data => {
         const result = data.docs.map(doc => doc.data());
         if (result && result.length > 0) {
-          resolve(
-            result.map(item => ({
-              caption: item.caption,
-              coverImage: item.coverImage,
-              user: item.user,
-              id: item.id,
-            })),
-          );
+          const tempPosts = result.map(item => ({
+            caption: item.caption,
+            coverImage: item.coverImage,
+            user: item.user,
+            id: item.id,
+          }));
+          modifyPostsUrl(tempPosts)
+            .then(finalPosts => {
+              resolve(finalPosts);
+            })
+            .catch(() => {
+              resolve(tempPosts);
+            });
         } else {
           reject();
         }
       })
       .catch(err => {
+        reject();
+      });
+  });
+};
+
+export const modifyPostsUrl = async (
+  posts: postObjectDataType[],
+): Promise<postObjectDataType[]> => {
+  return new Promise((resolve, reject) => {
+    const promisesList: Promise<postObjectDataType>[] = posts.map(
+      async post => {
+        return new Promise((resolve, reject) => {
+          const fullPath = post.coverImage;
+          storage()
+            .ref(fullPath)
+            .getDownloadURL()
+            .then(url => {
+              resolve({
+                id: post.id,
+                caption: post.caption,
+                coverImage: url,
+                user: post.user,
+              });
+            })
+            .catch(err => {
+              resolve(post);
+            });
+        });
+      },
+    );
+    Promise.all(promisesList)
+      .then((finalPosts: postObjectDataType[]) => {
+        resolve(finalPosts);
+      })
+      .catch(() => {
         reject();
       });
   });

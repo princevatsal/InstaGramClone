@@ -37,4 +37,6 @@ export interface MainStackPageProp {
 };
 export interface NewPostPageProp {
   navigation: NavigationProp<ParamListBase>;
+  user:userObjectDataType;
+  setPostsArray:any;
 }
