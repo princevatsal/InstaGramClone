@@ -18,12 +18,23 @@ const ArrowImg = require('../assets/right-arrow.png');
 const PlusImg = require('../assets/plus.png');
 
 const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
-
-  const [image, setImage] = useState<string|null>(null);
+  const [image, setImage] = useState<string | null>(null);
   const PickImageFromGallery = async () => {
     try {
-      const result = await launchImageLibrary({mediaType:"photo",quality:0.5});
-      result && setImage(result.assets?result.assets[0]?result.assets[0].uri:null);
+      const result = await launchImageLibrary({
+        mediaType: 'photo',
+        quality: 0.5,
+      });
+      result &&
+        setImage(
+          result.assets
+            ? result.assets[0]
+              ? result.assets[0].uri
+                ? result.assets[0].uri
+                : null
+              : null
+            : null,
+        );
     } catch (err) {}
   };
   return (
@@ -40,7 +51,7 @@ const NewPostScreen = ({navigation}: NewPostPageProp): JSX.Element => {
         </TouchableOpacity>
       </View>
       {image ? (
-        <Image style={styles.selectedImage} source={{uri: image.uri}} />
+        <Image style={styles.selectedImage} source={{uri: image}} />
       ) : (
         <TouchableOpacity
           style={styles.imagePicker as ViewStyle}
