@@ -161,4 +161,4 @@ const mapDispatchToProps = (dispatch: any) => ({
     dispatch(changeUser(userObject)),
 });
 
-export default connect(mapDispatchToProps)(LogInScreen);
+export default connect(null, mapDispatchToProps)(LogInScreen);
