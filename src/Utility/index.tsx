@@ -1,6 +1,6 @@
 import {nameErrorType} from '../Types';
 import firestore from '@react-native-firebase/firestore';
-import {userObjectDataType} from '../Types';
+import {userObjectDataType, postObjectDataType} from '../Types';
 
 export const validateName = (name: string): nameErrorType => {
   name = name.trim();
@@ -71,6 +71,31 @@ export const getUserDetails = async (
             phoneNo: result.phoneNo,
           });
         else reject();
+      })
+      .catch(err => {
+        reject();
+      });
+  });
+};
+
+export const getPosts = async (): Promise<postObjectDataType[]> => {
+  return new Promise((resolve, reject) => {
+    firestore()
+      .collection('Posts')
+      .get()
+      .then(data => {
+        const result = data.docs.map(doc => doc.data());
+        if (result && result.length > 0) {
+          resolve(
+            result.map(item => ({
+              caption: item.caption,
+              coverImage: item.coverImage,
+              user: item.user,
+            })),
+          );
+        } else {
+          reject();
+        }
       })
       .catch(err => {
         reject();

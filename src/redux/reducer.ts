@@ -1,9 +1,10 @@
-import { CHANGE_USER } from './types';
-import {userObjectDataType,commonReduxAction,stateType} from "../Types";
+import { CHANGE_USER,CHANGE_POSTS } from './types';
+import {commonReduxAction,stateType} from "../Types";
 
 
 const initialState:stateType = {
-    user: null
+    user: null,
+    posts:[]
 };
 
 const appReducer = (state:stateType = initialState, action:commonReduxAction) => {
@@ -12,6 +13,11 @@ const appReducer = (state:stateType = initialState, action:commonReduxAction) =>
             return {
                 ...state,
                 user:action.payload
+            };
+        case CHANGE_POSTS:
+            return {
+                ...state,
+                posts:action.payload
             };
         default:
         return state;

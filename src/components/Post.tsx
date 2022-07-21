@@ -17,7 +17,11 @@ const Saved = require('../assets/save-fill.png');
 const Avatar = require('../assets/avatar.png');
 const HEIGHT = Dimensions.get('window').height;
 
-const Post: React.FC = (): JSX.Element => {
+type PostProps = {coverImage: string; caption: string};
+const Post: React.FC<PostProps> = ({
+  coverImage,
+  caption,
+}: PostProps): JSX.Element => {
   const RenderComment = ({comment}: {comment: string}): JSX.Element => {
     return (
       <View style={styles.commentRow}>
@@ -48,11 +52,9 @@ const Post: React.FC = (): JSX.Element => {
   };
   const [showCommentSection, setShowCommentSection] = useState<boolean>(false);
 
-  const descriptionText: string =
-    'here goes the description, some cool texts are cont goes the description, some cool texts are contgoes the description, some cool texts are contgoes the description, some cool texts are containered here xts are containered here xts are containered here';
   return (
     <View style={styles.container}>
-      <Image source={IMG1} style={styles.postCoverImage} />
+      <Image source={{uri: coverImage}} style={styles.postCoverImage} />
       <View style={styles.actionBar}>
         <View style={styles.leftActions}>
           <Image source={Liked} style={styles.like} />
@@ -66,7 +68,7 @@ const Post: React.FC = (): JSX.Element => {
       </View>
       <View style={styles.description}>
         <Text style={styles.likeCount}>1000 likes</Text>
-        <RenderDescripton description={descriptionText} />
+        <RenderDescripton description={caption} />
       </View>
       {showCommentSection && (
         <View style={styles.commentSection}>

@@ -2,20 +2,36 @@ import AuthNavigator from './AuthNavigator';
 import TabNavigator from './TabNavigator';
 import LoadingScreen from '../screens/LoadingScreen';
 import {connect} from 'react-redux';
-import {changeUser} from '../redux/actions';
+import {changePosts, changeUser} from '../redux/actions';
 import {useState} from 'react';
 import React, {useEffect} from 'react';
 import auth from '@react-native-firebase/auth';
-import {getUserDetails} from '../Utility';
-import {MainStackPageProp, userObjectDataType, stateType} from '../Types';
+import {getUserDetails, getPosts} from '../Utility';
+import {
+  MainStackPageProp,
+  userObjectDataType,
+  stateType,
+  postObjectDataType,
+} from '../Types';
 
-const MainStack = ({user, setUserObject}: MainStackPageProp): JSX.Element => {
+const MainStack = ({
+  user,
+  setUserObject,
+  setPostsArray,
+}: MainStackPageProp): JSX.Element => {
   const onAuthStateChanged = (userObj: any) => {
     if (userObj) {
       getUserDetails(userObj.phoneNumber)
         .then(data => {
           setUserObject(data);
-          setLoading(false);
+          getPosts()
+            .then(posts => {
+              setPostsArray(posts);
+              setLoading(false);
+            })
+            .catch(() => {
+              setLoading(false);
+            });
         })
         .catch(() => {
           setLoading(false);
@@ -47,6 +63,8 @@ const mapStateToProps = (state: stateType) => ({
 const mapDispatchToProps = (dispatch: any) => ({
   setUserObject: (userObject: userObjectDataType) =>
     dispatch(changeUser(userObject)),
+  setPostsArray: (postsArray: postObjectDataType[]) =>
+    dispatch(changePosts(postsArray)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainStack);

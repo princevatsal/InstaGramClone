@@ -14,7 +14,7 @@
 		2B4B5B47B37574ECC06F5CCC /* Pods_InstaClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7FBFBABFF76A8B1E8FF7430 /* Pods_InstaClone.framework */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C35E95C33BEA69BF5E261044 /* Pods_InstaClone_InstaCloneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8DD82702C23CB99AE4392E2 /* Pods_InstaClone_InstaCloneTests.framework */; };
-		E1B242A9288732D5001887EE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1B242A8288732D5001887EE /* GoogleService-Info.plist */; };
+		E19A11EB28893F47001BF39F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E19A11EA28893F47001BF39F /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,7 +41,7 @@
 		555B23CE9FD6F3FE07982E1D /* Pods-InstaClone-InstaCloneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaClone-InstaCloneTests.release.xcconfig"; path = "Target Support Files/Pods-InstaClone-InstaCloneTests/Pods-InstaClone-InstaCloneTests.release.xcconfig"; sourceTree = "<group>"; };
 		724988EE16087EB11004AC83 /* Pods-InstaClone-InstaCloneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaClone-InstaCloneTests.debug.xcconfig"; path = "Target Support Files/Pods-InstaClone-InstaCloneTests/Pods-InstaClone-InstaCloneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = InstaClone/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		E1B242A8288732D5001887EE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E19A11EA28893F47001BF39F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E7FBFBABFF76A8B1E8FF7430 /* Pods_InstaClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_InstaClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F05A3EE8903931849F92554F /* Pods-InstaClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-InstaClone.release.xcconfig"; path = "Target Support Files/Pods-InstaClone/Pods-InstaClone.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,7 +118,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E1B242A8288732D5001887EE /* GoogleService-Info.plist */,
+				E19A11EA28893F47001BF39F /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* InstaClone */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* InstaCloneTests */,
@@ -246,7 +246,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E1B242A9288732D5001887EE /* GoogleService-Info.plist in Resources */,
+				E19A11EB28893F47001BF39F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

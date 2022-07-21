@@ -12,16 +12,21 @@ import {
 } from 'react-native';
 const InstagramImg = require('../../assets/instagram.png');
 import PhoneInput from 'react-native-phone-number-input';
-import {getUserDetails, checkUserExists} from '../../Utility';
+import {getUserDetails, checkUserExists, getPosts} from '../../Utility';
 import auth from '@react-native-firebase/auth';
-import {SignUpPageProp, userObjectDataType, stateType} from '../../Types';
+import {
+  SignUpPageProp,
+  userObjectDataType,
+  postObjectDataType,
+} from '../../Types';
 import {connect} from 'react-redux';
-import {changeUser} from '../../redux/actions';
+import {changeUser, changePosts} from '../../redux/actions';
 import {styles} from './styles';
 
 const LogInScreen = ({
   navigation,
   setUserObject,
+  setPostsArray,
 }: SignUpPageProp): JSX.Element => {
   const [phoneNo, setPhoneNo] = useState<string>('');
   const [isValidPhoneNo, setIsValidPhoneNo] = useState<boolean>(false);
@@ -57,8 +62,16 @@ const LogInScreen = ({
           phoneNo: result.user.phoneNumber,
           uid: result.user.uid,
         });
-        setCodeSubmitLoading(false);
-        setShowResetBtn(false);
+        getPosts()
+          .then(posts => {
+            setPostsArray(posts);
+            setCodeSubmitLoading(false);
+            setShowResetBtn(false);
+          })
+          .catch(() => {
+            setCodeSubmitLoading(false);
+            setShowResetBtn(false);
+          });
       } else {
         setCodeSubmitLoading(false);
         setShowResetBtn(true);
@@ -159,6 +172,8 @@ const LogInScreen = ({
 const mapDispatchToProps = (dispatch: any) => ({
   setUserObject: (userObject: userObjectDataType) =>
     dispatch(changeUser(userObject)),
+  setPostsArray: (postsArray: postObjectDataType[]) =>
+    dispatch(changePosts(postsArray)),
 });
 
 export default connect(null, mapDispatchToProps)(LogInScreen);
