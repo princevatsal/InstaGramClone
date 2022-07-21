@@ -3,7 +3,7 @@ import {NavigationProp, ParamListBase} from '@react-navigation/native';
 export type nameErrorType = true | {errorMessage: string};
 
 export type userObjectDataType = {uid: string; name: string; phoneNo: string} | null;
-export type postObjectDataType= {coverImage:string,caption:string,user:{uid:"string",name:"string"}}
+export type postObjectDataType= {id:string,coverImage:string,caption:string,user:{uid:"string",name:"string"}}
 export type userReduxAction={
   type:string,
   payload:userObjectDataType,
@@ -23,6 +23,7 @@ export interface ProfileScreenProp {
   navigation: NavigationProp<ParamListBase>;
   user:userObjectDataType,
   setUserObject:any,
+  posts:postObjectDataType[]
 }
 export interface SignUpPageProp {
   navigation: NavigationProp<ParamListBase>;

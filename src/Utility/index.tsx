@@ -91,6 +91,7 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
               caption: item.caption,
               coverImage: item.coverImage,
               user: item.user,
+              id: item.id,
             })),
           );
         } else {

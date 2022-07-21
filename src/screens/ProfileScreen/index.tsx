@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -12,7 +12,12 @@ import {
 } from 'react-native';
 import {connect} from 'react-redux';
 import auth from '@react-native-firebase/auth';
-import {stateType, userObjectDataType, ProfileScreenProp} from '../../Types';
+import {
+  stateType,
+  userObjectDataType,
+  ProfileScreenProp,
+  postObjectDataType,
+} from '../../Types';
 import Navbar from '../../components/Navbar';
 import {changeUser} from '../../redux/actions';
 import {styles} from './styles';
@@ -23,12 +28,24 @@ const LogoutImg = require('../../assets/logout.png');
 const ProfileScreen = ({
   navigation,
   user,
+  posts,
   setUserObject,
 }: ProfileScreenProp): JSX.Element => {
-  const RenderSmallPost: React.FC = (): JSX.Element => {
+  const [myPosts, setMyPosts] = useState<postObjectDataType[]>([]);
+  useEffect(() => {
+    setMyPosts(user ? posts.filter(post => post.user.uid == user.uid) : []);
+  }, [posts]);
+
+  type smallPostProp = {coverImage: string};
+  const RenderSmallPost: React.FC<smallPostProp> = ({
+    coverImage,
+  }: smallPostProp): JSX.Element => {
     return (
       <View style={styles.postImageCover}>
-        <Image source={Avatar} style={styles.postImage as ImageStyle} />
+        <Image
+          source={{uri: coverImage}}
+          style={styles.postImage as ImageStyle}
+        />
       </View>
     );
   };
@@ -36,7 +53,6 @@ const ProfileScreen = ({
     setUserObject(null);
     auth().signOut();
   };
-  const posts = [{}, {}, {}];
   return (
     <SafeAreaView style={styles.container}>
       <Navbar
@@ -46,7 +62,7 @@ const ProfileScreen = ({
       <View style={styles.row as ViewStyle}>
         <Image source={Avatar2} style={styles.profileImg as ImageStyle} />
         <View style={styles.stats as ViewStyle}>
-          <Text style={styles.value as TextStyle}>16</Text>
+          <Text style={styles.value as TextStyle}>{myPosts.length}</Text>
           <Text style={styles.heading}>Posts</Text>
         </View>
         <View style={styles.stats as ViewStyle}>
@@ -63,12 +79,12 @@ const ProfileScreen = ({
         <Text style={styles.postsHeading as TextStyle}>My Posts</Text>
         <ScrollView>
           <View style={styles.postsList as ViewStyle}>
-            {posts.length == 0 ? (
+            {myPosts.length == 0 ? (
               <Text style={styles.emptyMessage as TextStyle}>
                 No Post found
               </Text>
             ) : (
-              posts.map((i, index) => <RenderSmallPost key={index} />)
+              myPosts.map(i => <RenderSmallPost coverImage={i.coverImage} />)
             )}
           </View>
         </ScrollView>
@@ -79,6 +95,7 @@ const ProfileScreen = ({
 
 const mapStateToProps = (state: stateType) => ({
   user: state.user,
+  posts: state.posts,
 });
 const mapDispatchToProps = (dispatch: any) => ({
   setUserObject: (userObject: userObjectDataType) =>

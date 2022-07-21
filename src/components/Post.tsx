@@ -18,10 +18,15 @@ const Avatar = require('../assets/avatar.png');
 const HEIGHT = Dimensions.get('window').height;
 
 type PostProps = {coverImage: string; caption: string};
+
 const Post: React.FC<PostProps> = ({
   coverImage,
   caption,
 }: PostProps): JSX.Element => {
+  const [showCommentSection, setShowCommentSection] = useState<boolean>(false);
+  const [like, setLike] = useState<boolean>(false);
+  const [save, setSave] = useState<boolean>(false);
+
   const RenderComment = ({comment}: {comment: string}): JSX.Element => {
     return (
       <View style={styles.commentRow}>
@@ -30,6 +35,7 @@ const Post: React.FC<PostProps> = ({
       </View>
     );
   };
+
   const RenderDescripton = ({
     description,
   }: {
@@ -50,21 +56,24 @@ const Post: React.FC<PostProps> = ({
         </Text>
       );
   };
-  const [showCommentSection, setShowCommentSection] = useState<boolean>(false);
 
   return (
     <View style={styles.container}>
       <Image source={{uri: coverImage}} style={styles.postCoverImage} />
       <View style={styles.actionBar}>
         <View style={styles.leftActions}>
-          <Image source={Liked} style={styles.like} />
+          <TouchableOpacity onPress={() => setLike(old => !old)}>
+            <Image source={like ? Liked : Like} style={styles.like} />
+          </TouchableOpacity>
           <TouchableOpacity onPress={() => setShowCommentSection(old => !old)}>
             <Image source={CommentIconImg} style={styles.comment} />
           </TouchableOpacity>
         </View>
-        <View style={styles.rightActions}>
-          <Image source={Saved} style={styles.save} />
-        </View>
+        <TouchableOpacity
+          style={styles.rightActions}
+          onPress={() => setSave(old => !old)}>
+          <Image source={save ? Saved : Save} style={styles.save} />
+        </TouchableOpacity>
       </View>
       <View style={styles.description}>
         <Text style={styles.likeCount}>1000 likes</Text>
