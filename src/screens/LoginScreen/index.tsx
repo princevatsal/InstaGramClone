@@ -46,36 +46,14 @@ const LogInScreen = ({
       setTimeout(() => setShowResetBtn(true), 5000);
     } catch (err) {
       setError('some error occured');
-      console.log(err, 'error creating user');
     }
   }
+
   const SubmitCode = async (setUserObject: any) => {
     setCodeSubmitLoading(true);
     try {
       const result = await confirm.confirm(code);
-      const userObject: userObjectDataType = await getUserDetails(
-        result.user.phoneNumber,
-      );
-      if (userObject) {
-        setUserObject({
-          name: userObject.name,
-          phoneNo: result.user.phoneNumber,
-          uid: result.user.uid,
-        });
-        getPosts()
-          .then(posts => {
-            setPostsArray(posts);
-            setCodeSubmitLoading(false);
-            setShowResetBtn(false);
-          })
-          .catch(() => {
-            setCodeSubmitLoading(false);
-            setShowResetBtn(false);
-          });
-      } else {
-        setCodeSubmitLoading(false);
-        setShowResetBtn(true);
-      }
+      setUserDetailsAndPosts(result.user.phoneNumber, result.user.uid);
     } catch (err) {
       console.log(err);
       setShowResetBtn(true);
@@ -83,26 +61,64 @@ const LogInScreen = ({
     }
   };
 
-  const Submit = async (isValidPhoneNo: boolean, formattedPhoneNo: string) => {
+  const setUserDetailsAndPosts = async (phoneNum: string, uid: string) => {
+    const name = await getUserName(phoneNo);
+    if (name) {
+      setUserObject({
+        name: name,
+        phoneNo: phoneNum,
+        uid: uid,
+      });
+      getPosts()
+        .then(posts => {
+          setPostsArray(posts);
+          setCodeSubmitLoading(false);
+          setShowResetBtn(false);
+        })
+        .catch(() => {
+          setCodeSubmitLoading(false);
+          setShowResetBtn(false);
+        });
+    } else {
+      setCodeSubmitLoading(false);
+      setShowResetBtn(true);
+    }
+  };
+
+  const getUserName = async (phoneNum: string) => {
+    const userObject: userObjectDataType = await getUserDetails(phoneNum);
+    if (userObject) {
+      return userObject.name;
+    } else {
+      return false;
+    }
+  };
+  const validate = (isValidPhoneNo: boolean): boolean => {
     setError(null);
     if (!isValidPhoneNo) {
       setError('Please enter a valid phone No');
-      return;
+      return false;
     }
-    setSubmitLoading(true);
-    checkUserExists(formattedPhoneNo)
-      .then(async (userExists: boolean) => {
-        if (userExists) {
-          await signInWithPhoneNumber(formattedPhoneNo);
+    return true;
+  };
+
+  const Submit = async (isValidPhoneNo: boolean, formattedPhoneNo: string) => {
+    if (validate(isValidPhoneNo)) {
+      setSubmitLoading(true);
+      checkUserExists(formattedPhoneNo)
+        .then(async (userExists: boolean) => {
+          if (userExists) {
+            await signInWithPhoneNumber(formattedPhoneNo);
+            setSubmitLoading(false);
+          } else {
+            setError('User Does not exists');
+            setSubmitLoading(false);
+          }
+        })
+        .catch(() => {
           setSubmitLoading(false);
-        } else {
-          setError('User Does not exists');
-          setSubmitLoading(false);
-        }
-      })
-      .catch(() => {
-        setSubmitLoading(false);
-      });
+        });
+    }
   };
 
   const handleChangeFormattedPhoneNumber = (phoneNo: string): void => {
@@ -126,7 +142,7 @@ const LogInScreen = ({
       ) : (
         <PhoneInput
           ref={phoneInput}
-          defaultValue={''}
+          defaultValue={phoneNo}
           defaultCode="IN"
           layout="first"
           onChangeText={e => setPhoneNo(e)}

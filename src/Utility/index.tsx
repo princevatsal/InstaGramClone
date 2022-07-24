@@ -25,7 +25,6 @@ export const checkUserExists = async (phoneNo: string): Promise<boolean> => {
       })
       .catch(err => {
         reject();
-        console.log(err, 'error');
       });
   });
 };
@@ -45,11 +44,9 @@ export const setUserDetails = async (
         uid,
       })
       .then(() => {
-        console.log('User added!');
         resolve('success');
       })
       .catch(err => {
-        console.log(err);
         reject();
       });
   });
@@ -93,7 +90,7 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
             user: item.user,
             id: item.id,
           }));
-          modifyPostsUrl(tempPosts)
+          resolvePostsImageUrls(tempPosts)
             .then(finalPosts => {
               resolve(finalPosts);
             })
@@ -110,31 +107,11 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
   });
 };
 
-export const modifyPostsUrl = async (
+export const resolvePostsImageUrls = async (
   posts: postObjectDataType[],
 ): Promise<postObjectDataType[]> => {
   return new Promise((resolve, reject) => {
-    const promisesList: Promise<postObjectDataType>[] = posts.map(
-      async post => {
-        return new Promise((resolve, reject) => {
-          const fullPath = post.coverImage;
-          storage()
-            .ref(fullPath)
-            .getDownloadURL()
-            .then(url => {
-              resolve({
-                id: post.id,
-                caption: post.caption,
-                coverImage: url,
-                user: post.user,
-              });
-            })
-            .catch(err => {
-              resolve(post);
-            });
-        });
-      },
-    );
+    const promisesList = getPromiseListOfResolvedUrlPosts(posts);
     Promise.all(promisesList)
       .then((finalPosts: postObjectDataType[]) => {
         resolve(finalPosts);
@@ -142,5 +119,27 @@ export const modifyPostsUrl = async (
       .catch(() => {
         reject();
       });
+  });
+};
+
+const getPromiseListOfResolvedUrlPosts = (
+  posts: postObjectDataType[],
+): Promise<postObjectDataType>[] => {
+  return posts.map(async post => {
+    return new Promise(resolve => {
+      const fullPath: string = post.coverImage;
+      storage()
+        .ref(fullPath)
+        .getDownloadURL()
+        .then(url => {
+          resolve({
+            ...post,
+            coverImage: url,
+          });
+        })
+        .catch(err => {
+          resolve(post);
+        });
+    });
   });
 };

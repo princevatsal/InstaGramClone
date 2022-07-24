@@ -19,7 +19,7 @@ const MainStack = ({
   setUserObject,
   setPostsArray,
 }: MainStackPageProp): JSX.Element => {
-  const onAuthStateChanged = (userObj: any) => {
+  const getUserDetailsAndPosts = (userObj: any) => {
     if (userObj) {
       getUserDetails(userObj.phoneNumber)
         .then(data => {
@@ -42,7 +42,7 @@ const MainStack = ({
   };
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber = auth().onAuthStateChanged(getUserDetailsAndPosts);
     return subscriber;
   }, []);
 

@@ -76,7 +76,7 @@ const Post: React.FC<PostProps> = ({
         </TouchableOpacity>
       </View>
       <View style={styles.description}>
-        <Text style={styles.likeCount}>1000 likes</Text>
+        <Text style={styles.likeCount}>0 likes</Text>
         <RenderDescripton description={caption} />
       </View>
       {showCommentSection && (
