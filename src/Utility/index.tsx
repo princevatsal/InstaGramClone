@@ -1,7 +1,7 @@
 import {nameErrorType} from '../Types';
-// import firestore from '@react-native-firebase/firestore';
-// import {userObjectDataType, postObjectDataType} from '../Types';
-// import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
+import {userObjectDataType, postObjectDataType} from '../Types';
+import storage from '@react-native-firebase/storage';
 
 export const validateName = (name: string): nameErrorType => {
   name = name.trim();
