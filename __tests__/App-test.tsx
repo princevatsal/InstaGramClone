@@ -10,8 +10,22 @@ import Intro from '../intro';
 import renderer from 'react-test-renderer';
 import {validateName} from '../src/Utility';
 
-describe('Testing validators', () => {
-  it('Name validator', () => {
+describe('Testing  name validator ', () => {
+  it('Correct Name', () => {
     expect(validateName('Priyansh Vatsal')).toBe(true);
+  });
+  it('Empty name', () => {
+    expect(validateName('  ')).toStrictEqual({
+      errorMessage: 'Please enter your name',
+    });
+  });
+  it('Long Name', () => {
+    expect(
+      validateName(
+        'Priyansh Vatsal and a very long text that should not be a name ofcourse ',
+      ),
+    ).toStrictEqual({
+      errorMessage: 'Name can not be of more than 30 characters',
+    });
   });
 });
