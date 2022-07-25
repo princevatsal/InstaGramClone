@@ -12,3 +12,6 @@ jest.mock('@react-native-firebase/firestore', () => {
       })
     };
   });
+  jest.mock('@react-native-firebase/storage', () => ({
+		firebase: { app: jest.fn() },
+	}));
