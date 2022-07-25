@@ -55,7 +55,6 @@ const LogInScreen = ({
       const result = await confirm.confirm(code);
       setUserDetailsAndPosts(result.user.phoneNumber, result.user.uid);
     } catch (err) {
-      console.log(err);
       setShowResetBtn(true);
       setCodeSubmitLoading(false);
     }

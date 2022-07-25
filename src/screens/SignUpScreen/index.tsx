@@ -52,9 +52,7 @@ const SignUpScreen = ({
       const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
       setConfirm(confirmation);
       setTimeout(() => setShowResetBtn(true), 5000);
-    } catch (err) {
-      console.log(err, 'error creating user');
-    }
+    } catch (err) {}
   }
 
   const SubmitCode = async () => {

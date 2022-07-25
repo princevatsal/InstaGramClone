@@ -83,6 +83,7 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
       .get()
       .then(data => {
         const result = data.docs.map(doc => doc.data());
+
         if (result && result.length > 0) {
           const tempPosts = result.map(item => ({
             caption: item.caption,
@@ -94,7 +95,7 @@ export const getPosts = async (): Promise<postObjectDataType[]> => {
             .then(finalPosts => {
               resolve(finalPosts);
             })
-            .catch(() => {
+            .catch(err => {
               resolve(tempPosts);
             });
         } else {
@@ -116,8 +117,8 @@ export const resolvePostsImageUrls = async (
       .then((finalPosts: postObjectDataType[]) => {
         resolve(finalPosts);
       })
-      .catch(() => {
-        reject();
+      .catch(err => {
+        reject(err);
       });
   });
 };

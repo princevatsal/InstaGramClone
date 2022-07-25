@@ -84,7 +84,11 @@ const ProfileScreen = ({
                 No Post found
               </Text>
             ) : (
-              myPosts.map(i => <RenderSmallPost coverImage={i.coverImage} />)
+              myPosts.map(i => (
+                <React.Fragment key={i.id}>
+                  <RenderSmallPost coverImage={i.coverImage} />
+                </React.Fragment>
+              ))
             )}
           </View>
         </ScrollView>
