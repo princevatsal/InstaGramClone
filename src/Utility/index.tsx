@@ -35,20 +35,30 @@ export const setUserDetails = async (
   uid: string,
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
-    firestore()
-      .collection('Users')
-      .doc(phoneNo)
-      .set({
-        name,
-        phoneNo,
-        uid,
-      })
-      .then(() => {
-        resolve('success');
-      })
-      .catch(err => {
-        reject();
-      });
+    if (
+      !name ||
+      name.trim() == '' ||
+      !phoneNo ||
+      phoneNo.trim() == '' ||
+      !uid ||
+      uid.trim() == ''
+    ) {
+      reject('error');
+    } else
+      firestore()
+        .collection('Users')
+        .doc(phoneNo)
+        .set({
+          name,
+          phoneNo,
+          uid,
+        })
+        .then(() => {
+          resolve('success');
+        })
+        .catch(err => {
+          reject('error');
+        });
   });
 };
 
@@ -56,23 +66,26 @@ export const getUserDetails = async (
   phoneNo: string,
 ): Promise<userObjectDataType> => {
   return new Promise((resolve, reject) => {
-    firestore()
-      .collection('Users')
-      .doc(phoneNo)
-      .get()
-      .then(data => {
-        const result = data.data();
-        if (result != undefined)
-          resolve({
-            name: result.name,
-            uid: result.uid,
-            phoneNo: result.phoneNo,
-          });
-        else reject();
-      })
-      .catch(err => {
-        reject();
-      });
+    if (!phoneNo || phoneNo.trim() == '') {
+      reject('error');
+    } else
+      firestore()
+        .collection('Users')
+        .doc(phoneNo)
+        .get()
+        .then(data => {
+          const result = data.data();
+          if (result != undefined)
+            resolve({
+              name: result.name,
+              uid: result.uid,
+              phoneNo: result.phoneNo,
+            });
+          else reject('no user exists with this phone no');
+        })
+        .catch(err => {
+          reject('error');
+        });
   });
 };
 

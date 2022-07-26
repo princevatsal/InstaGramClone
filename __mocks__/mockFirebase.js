@@ -1,17 +1,15 @@
+import { FakeFirestore,mockFirebase} from "firestore-jest-mock";
+import {users,posts} from "./data";
+
+
+const mockFireStore =()=>new FakeFirestore({
+  Users:users,
+  Posts:posts,
+});
 jest.mock('@react-native-firebase/firestore', () => {
-    return {
-      initializeApp:jest.fn(),
-      _default:jest.fn(),
-      firestore: jest.fn().mockReturnValue({
-        _default:jest.fn(),
-        collection: jest.fn().mockReturnValue({
-          add: jest.fn().mockResolvedValue({
-            id: 'abc123'
-          })
-        })
-      })
-    };
+    return mockFireStore;
   });
-  jest.mock('@react-native-firebase/storage', () => ({
-		firebase: { app: jest.fn() },
-	}));
+
+jest.mock('@react-native-firebase/storage', () => ({
+  firebase: { app: jest.fn() },
+}));
