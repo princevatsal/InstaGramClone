@@ -12,9 +12,9 @@ npm test
 
 # For running the project
 
-cd into the project
-npm install
-cd into ios folder
-pod install | arch -x86_64 pod install ( if m1 chip mac )
-cd back into project
-npx react-native run-android | npx react-native run-ios
+cd into the project<br />
+npm install<br />
+cd into ios folder<br />
+pod install | arch -x86_64 pod install ( if m1 chip mac )<br />
+cd back into project<br />
+npx react-native run-android | npx react-native run-ios<br />
