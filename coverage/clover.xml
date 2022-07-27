@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1658826062932" clover="3.2.0">
-  <project timestamp="1658826062932" name="All files">
+<coverage generated="1658826330851" clover="3.2.0">
+  <project timestamp="1658826330851" name="All files">
     <metrics statements="53" coveredstatements="26" conditionals="22" coveredconditionals="18" methods="30" coveredmethods="7" elements="105" coveredelements="51" complexity="0" loc="53" ncloc="53" packages="1" files="1" classes="1"/>
     <file name="index.tsx" path="/Users/priyanshvatsal/Desktop/Assignment/InstaGramClone/src/Utility/index.tsx">
       <metrics statements="53" coveredstatements="26" conditionals="22" coveredconditionals="18" methods="30" coveredmethods="7"/>
-      <line num="6" count="1" type="stmt"/>
+      <line num="6" count="3" type="stmt"/>
       <line num="7" count="4" type="stmt"/>
       <line num="8" count="4" type="cond" truecount="2" falsecount="0"/>
       <line num="9" count="2" type="stmt"/>
       <line num="10" count="2" type="cond" truecount="2" falsecount="0"/>
       <line num="11" count="1" type="stmt"/>
       <line num="13" count="1" type="stmt"/>
-      <line num="17" count="1" type="stmt"/>
+      <line num="17" count="3" type="stmt"/>
       <line num="18" count="0" type="stmt"/>
       <line num="19" count="0" type="stmt"/>
       <line num="24" count="0" type="stmt"/>
       <line num="27" count="0" type="stmt"/>
-      <line num="32" count="1" type="stmt"/>
+      <line num="32" count="3" type="stmt"/>
       <line num="37" count="4" type="stmt"/>
       <line num="38" count="4" type="cond" truecount="2" falsecount="0"/>
       <line num="46" count="3" type="stmt"/>
       <line num="48" count="1" type="stmt"/>
       <line num="57" count="1" type="stmt"/>
       <line num="60" count="0" type="stmt"/>
-      <line num="65" count="1" type="stmt"/>
+      <line num="65" count="3" type="stmt"/>
       <line num="68" count="4" type="stmt"/>
       <line num="69" count="4" type="cond" truecount="4" falsecount="0"/>
       <line num="70" count="1" type="stmt"/>
@@ -33,7 +33,7 @@
       <line num="79" count="2" type="stmt"/>
       <line num="84" count="1" type="stmt"/>
       <line num="87" count="0" type="stmt"/>
-      <line num="92" count="1" type="stmt"/>
+      <line num="92" count="3" type="stmt"/>
       <line num="93" count="0" type="stmt"/>
       <line num="94" count="0" type="stmt"/>
       <line num="98" count="0" type="stmt"/>
@@ -44,13 +44,13 @@
       <line num="112" count="0" type="stmt"/>
       <line num="115" count="0" type="stmt"/>
       <line num="119" count="0" type="stmt"/>
-      <line num="124" count="1" type="stmt"/>
+      <line num="124" count="3" type="stmt"/>
       <line num="127" count="0" type="stmt"/>
       <line num="128" count="0" type="stmt"/>
       <line num="129" count="0" type="stmt"/>
       <line num="131" count="0" type="stmt"/>
       <line num="134" count="0" type="stmt"/>
-      <line num="139" count="1" type="stmt"/>
+      <line num="139" count="3" type="stmt"/>
       <line num="142" count="0" type="stmt"/>
       <line num="143" count="0" type="stmt"/>
       <line num="144" count="0" type="stmt"/>
